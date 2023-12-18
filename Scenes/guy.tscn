@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyynodkeefdmb"]
+[gd_scene load_steps=11 format=3 uid="uid://dyynodkeefdmb"]
 
 [ext_resource type="Texture2D" uid="uid://dsspmr4qivuo0" path="res://Sprites/guy-sheet.png" id="1_ioyiq"]
 [ext_resource type="Script" path="res://Scripts/guy.gd" id="1_pqwc1"]
 [ext_resource type="Script" path="res://Scripts/PlayerControllerComp.gd" id="3_rhx7o"]
+[ext_resource type="Script" path="res://Scripts/HealthComp.gd" id="4_b6sbf"]
+[ext_resource type="Script" path="res://Scripts/DmgBoxComp.gd" id="5_7bv77"]
+[ext_resource type="Script" path="res://Scripts/HitboxComp.gd" id="5_i8svn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qu2l6"]
 size = Vector2(18, 4)
@@ -63,14 +66,21 @@ shape = SubResource("RectangleShape2D_qu2l6")
 script = ExtResource("3_rhx7o")
 
 [node name="HealthComp" type="Node2D" parent="."]
+script = ExtResource("4_b6sbf")
 
-[node name="HitboxComp" type="Node2D" parent="."]
+[node name="DmgBoxComp" type="Area2D" parent="."]
+script = ExtResource("5_7bv77")
 
-[node name="VelocityComp" type="Node2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DmgBoxComp"]
 
-[node name="DmgBoxComp" type="Node2D" parent="."]
+[node name="HitboxComp" type="Area2D" parent="."]
+script = ExtResource("5_i8svn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComp"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ujo6i")
 }
+
+[connection signal="area_entered" from="HitboxComp" to="HitboxComp" method="_on_area_entered"]
