@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b85l7cxh3pg03"]
+
+[ext_resource type="Script" path="res://Scripts/HitboxComp.gd" id="1_ospdu"]
+
+[node name="HitboxComp" type="Area2D"]
+script = ExtResource("1_ospdu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+debug_color = Color(0.760784, 0.411765, 0.501961, 0.419608)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://nds8w3kb66wa"]
+
+[ext_resource type="Script" path="res://Scripts/DmgBoxComp.gd" id="1_k6dio"]
+
+[node name="DmgBoxComp" type="Area2D"]
+script = ExtResource("1_k6dio")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

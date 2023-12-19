@@ -1,14 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://dyynodkeefdmb"]
+[gd_scene load_steps=12 format=3 uid="uid://dyynodkeefdmb"]
 
 [ext_resource type="Texture2D" uid="uid://dsspmr4qivuo0" path="res://Sprites/guy-sheet.png" id="1_ioyiq"]
 [ext_resource type="Script" path="res://Scripts/guy.gd" id="1_pqwc1"]
 [ext_resource type="Script" path="res://Scripts/PlayerControllerComp.gd" id="3_rhx7o"]
-[ext_resource type="Script" path="res://Scripts/HealthComp.gd" id="4_b6sbf"]
-[ext_resource type="Script" path="res://Scripts/DmgBoxComp.gd" id="5_7bv77"]
-[ext_resource type="Script" path="res://Scripts/HitboxComp.gd" id="5_i8svn"]
+[ext_resource type="PackedScene" uid="uid://x2ub4bicuqdg" path="res://Scenes/health_comp.tscn" id="4_78fd5"]
+[ext_resource type="PackedScene" uid="uid://nds8w3kb66wa" path="res://Scenes/dmg_box_comp.tscn" id="5_6bo6y"]
+[ext_resource type="PackedScene" uid="uid://b85l7cxh3pg03" path="res://Scenes/hitbox_comp.tscn" id="6_pfg2i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qu2l6"]
-size = Vector2(18, 4)
+size = Vector2(32, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejqil"]
+size = Vector2(26, 54)
 
 [sub_resource type="Animation" id="Animation_ej2n4"]
 resource_name = "idle"
@@ -50,6 +53,7 @@ _data = {
 }
 
 [node name="Guy" type="CharacterBody2D"]
+collision_mask = 4
 script = ExtResource("1_pqwc1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -57,30 +61,33 @@ texture_filter = 1
 texture = ExtResource("1_ioyiq")
 hframes = 13
 vframes = 13
+region_rect = Rect2(6, 5, 1034, 1035)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, 30)
+position = Vector2(10, 9)
 shape = SubResource("RectangleShape2D_qu2l6")
 
 [node name="PlayerControllerComp" type="Node2D" parent="."]
 script = ExtResource("3_rhx7o")
 
-[node name="HealthComp" type="Node2D" parent="."]
-script = ExtResource("4_b6sbf")
+[node name="HealthComp" parent="." instance=ExtResource("4_78fd5")]
 
-[node name="DmgBoxComp" type="Area2D" parent="."]
-script = ExtResource("5_7bv77")
+[node name="DmgBoxComp" parent="." instance=ExtResource("5_6bo6y")]
+position = Vector2(-13, -7)
+collision_mask = 26
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DmgBoxComp"]
+[node name="HitboxComp" parent="." instance=ExtResource("6_pfg2i")]
+position = Vector2(14, 13)
+collision_mask = 10
 
-[node name="HitboxComp" type="Area2D" parent="."]
-script = ExtResource("5_i8svn")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComp"]
+[node name="CollisionShape2D" parent="HitboxComp" index="0"]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_ejqil")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ujo6i")
 }
 
-[connection signal="area_entered" from="HitboxComp" to="HitboxComp" method="_on_area_entered"]
+[editable path="DmgBoxComp"]
+[editable path="HitboxComp"]
